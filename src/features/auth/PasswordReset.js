@@ -1,4 +1,17 @@
-import { Link } from '@reach/router';
+import {
+  Avatar,
+  Button,
+  Grid,
+  Link,
+  Paper,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { CheckCircleOutlineIcon } from '@material-ui/icons/CheckCircleOutline';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Alert from '@material-ui/lab/Alert';
+import { Link as ReachLink } from '@reach/router';
 import React, { useState } from 'react';
 import { auth } from '../firebase/firebase';
 
@@ -28,51 +41,101 @@ const PasswordReset = () => {
         setError('Error resetting password');
       });
   };
-
+  const classes = useStyles();
   return (
-    <div className="mt-8">
-      <h1 className="text-xl text-center font-bold mb-3">
-        Reset your Password
-      </h1>
-      <div className="border border-blue-300 mx-auto w-11/12 md:w-2/4 rounded py-8 px-4 md:px-8">
-        <form action="">
-          {emailHasBeenSent && (
-            <div className="py-3 bg-green-400 w-full text-white text-center mb-3">
-              An email has been sent to you!
-            </div>
-          )}
-          {error !== null && (
-            <div className="py-3 bg-red-600 w-full text-white text-center mb-3">
-              {error}
-            </div>
-          )}
-          <label htmlFor="userEmail" className="w-full block">
-            Email:
-          </label>
-          <input
-            type="email"
-            name="userEmail"
-            id="userEmail"
-            value={email}
-            placeholder="Input your email"
-            onChange={onChangeHandler}
-            className="mb-3 w-full px-1 py-2"
-          />
-          <button
-            className="w-full bg-blue-400 text-white py-3"
-            onClick={(event) => sendResetEmail(event)}
-          >
-            Send me a reset link
-          </button>
-        </form>
-        <Link
-          to="/"
-          className="my-2 text-blue-700 hover:text-blue-800 text-center block"
-        >
-          &larr; back to sign in page
-        </Link>
-      </div>
-    </div>
+    <Grid container component="main" className={classes.root}>
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Reset your password
+          </Typography>
+          <form className={classes.form} noValidate>
+            {emailHasBeenSent && (
+              <Alert
+                iconMapping={{
+                  success: <CheckCircleOutlineIcon fontSize="inherit" />,
+                }}
+              >
+                This is a success alert — check it out!
+              </Alert>
+            )}
+            {error !== null && (
+              <Alert variant="outlined" severity="error">
+                {error}
+              </Alert>
+            )}
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="userEmail"
+                  label="Email Address"
+                  name="userEmail"
+                  autoComplete="email"
+                  onChange={(event) => onChangeHandler(event)}
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={(event) => sendResetEmail(event)}
+            >
+              Send me a reset link
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link component={ReachLink} to="/" variant="body2">
+                  Back to sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+      </Grid>
+    </Grid>
   );
 };
 export default PasswordReset;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    height: '100vh',
+  },
+  image: {
+    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundRepeat: 'no-repeat',
+    backgroundColor:
+      theme.palette.type === 'light'
+        ? theme.palette.grey[50]
+        : theme.palette.grey[900],
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  },
+  paper: {
+    margin: theme.spacing(8, 4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
