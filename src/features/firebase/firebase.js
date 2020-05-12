@@ -3,14 +3,14 @@ import 'firebase/auth';
 import 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyB2XhuGT4zTs56G8JwFEv987srNxaa7Bpc',
-  authDomain: 'stitchy-d9018.firebaseapp.com',
-  databaseURL: 'https://stitchy-d9018.firebaseio.com',
-  projectId: 'stitchy-d9018',
-  storageBucket: 'stitchy-d9018.appspot.com',
-  messagingSenderId: '677365817706',
-  appId: '1:677365817706:web:e643a9d1eec72c598d0513',
-  measurementId: 'G-K3GY0T25XL',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID,
 };
 
 const provider = new firebase.auth.GoogleAuthProvider();
